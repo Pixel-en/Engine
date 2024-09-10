@@ -2,9 +2,13 @@
 
 #include "Engine/Direct3D.h"
 #include "Engine/Camera.h"
+#include "Engine/RootJob.h"
 
 const wchar_t* WIN_CLASS_NAME = L"SampleGame";  //ウィンドウクラス名
 const wchar_t* APP_NAME = L"サンプルゲーム";
+
+RootJob* pRootjob = nullptr;	//ルートジョブ(すべての親)
+
 
 
 //プロトタイプ宣言
@@ -62,6 +66,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	Camera::Initialize();
 
+	pRootjob = new RootJob();
+	pRootjob->Initialize();
+
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
@@ -85,15 +92,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			Camera::Update();
 
+			pRootjob->Update();
 
 			Direct3D::BeginDraw();
+
+			//ルートジョブのDraw
+			//pRootjob->Draw();
 			
+
 			Direct3D::EndDraw();
 
 		}
 	}
 
-	//SAFE_DELETE(quad);
+
+	pRootjob->Release();
 
 	//解放処理
 	Direct3D::Release();

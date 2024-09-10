@@ -164,8 +164,7 @@ HRESULT Direct3D::InitShader3D()
 {
     HRESULT hr;
 
-    //3D用のシェーダー設定の皆さん ここから
-    // 頂点シェーダの作成（コンパイル）
+    // 頂点シェーダの作成
     ID3DBlob* pCompileVS = nullptr;
     D3DCompileFromFile(L"simple3D.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
     assert(pCompileVS != nullptr);

@@ -92,11 +92,33 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
+			timeBeginPeriod(1);
+			static DWORD startTime = timeGetTime();
 			DWORD nowTime = timeGetTime();
+			timeEndPeriod(1);
 
-			std::wstring str;
-			wsprintf(str.data(), L"%u", nowTime);
-			SetWindowTextW(hWnd, str.c_str());
+			static DWORD lastUpdateTime = nowTime;
+			static DWORD countFps = 0;
+			
+
+			if (nowTime - startTime >= 1000) {
+
+				std::wstring str;
+
+				wsprintf(str.data(), L"%u", countFps);
+				SetWindowTextW(hWnd, str.c_str());
+				countFps = 0;
+				startTime = nowTime;
+			}
+			
+			//1/60以上経過してないのでスルー
+			if (nowTime - lastUpdateTime <= 1000.0f / 60.0f)
+				continue;
+
+			//1/60秒以上経過しているので更新
+			lastUpdateTime = nowTime;
+
+			countFps++;
 
 			Camera::Update();
 

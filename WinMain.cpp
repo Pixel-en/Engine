@@ -1,8 +1,12 @@
-#include <Windows.h>
 
+#include <Windows.h>
+#include <stdlib.h>
 #include "Engine/Direct3D.h"
 #include "Engine/Camera.h"
 #include "Engine/RootJob.h"
+
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "winmm.lib")
 
 const wchar_t* WIN_CLASS_NAME = L"SampleGame";  //ウィンドウクラス名
 const wchar_t* APP_NAME = L"サンプルゲーム";
@@ -88,16 +92,20 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
+			DWORD nowTime = timeGetTime();
 
+			std::wstring str;
+			wsprintf(str.data(), L"%u", nowTime);
+			SetWindowTextW(hWnd, str.c_str());
 
 			Camera::Update();
 
-			pRootjob->Update();
+			pRootjob->UpdateSub();
 
 			Direct3D::BeginDraw();
 
 			//ルートジョブのDraw
-			//pRootjob->Draw();
+			pRootjob->DrawSub();
 			
 
 			Direct3D::EndDraw();
@@ -106,7 +114,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	}
 
 
-	pRootjob->Release();
+	pRootjob->ReleaseSub();
 
 	//解放処理
 	Direct3D::Release();
@@ -119,7 +127,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
-	case WM_DESTROY:
+	case WM_DESTROY:	//ウィンドウが閉じられたイベント
 		PostQuitMessage(0);  //プログラム終了
 		return 0;
 	}

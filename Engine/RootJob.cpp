@@ -12,9 +12,10 @@ RootJob::~RootJob()
 void RootJob::Initialize()
 {
 	//ˆê’UPlayScene(GameObjectŒp³)
-	PlayScene* pPlayScene = new PlayScene(this);
-	pPlayScene->Initialize();
-	childList_.push_back(pPlayScene);
+	//PlayScene* pPlayScene = new PlayScene(this);
+	//pPlayScene->Initialize();
+	//childList_.push_back(pPlayScene);
+	Instantiate<PlayScene>(this);
 }
 
 void RootJob::Update()

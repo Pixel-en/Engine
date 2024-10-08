@@ -149,7 +149,7 @@
     </Link>
     <FxCompile>
       <EntryPointName>VS</EntryPointName>
-      <ShaderModel>4.0_level_9_3</ShaderModel>
+      <ShaderModel>5.1</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,6 +177,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChildOden.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\Dice.cpp" />
     <ClCompile Include="Engine\Direct3D.cpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChildOden.h" />
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\Dice.h" />
     <ClInclude Include="Engine\Direct3D.h" />

@@ -40,7 +40,14 @@ void Transform::Calculation()
 
 XMMATRIX Transform::GetWorldMatrix()
 {
-    return matScale_ * matRotate_ * matTranslate_;
+    //return matScale_ * matRotate_ * matTranslate_;
+    if (pParent_ != nullptr) {
+        return matScale_ * matRotate_ * matTranslate_ * pParent_->GetWorldMatrix();
+    }
+    else
+    {
+        return matScale_ * matRotate_ * matTranslate_;
+    }
 }
 
 XMMATRIX Transform::GetNormalMatrix()

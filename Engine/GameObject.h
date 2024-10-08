@@ -6,6 +6,8 @@
 
 class GameObject
 {
+	bool isDead_;
+
 protected:
 	std::list<GameObject*> childList_;
 	Transform	transform_;
@@ -25,6 +27,16 @@ public:
 	void UpdateSub();
 	void DrawSub();
 	void ReleaseSub();
+
+	void Killme();
+
+	void SetPosition(XMFLOAT3 position) {
+		transform_.position_ = position;
+	}
+
+	void SetPosition(float x, float y, float z) {
+		SetPosition(XMFLOAT3(x, y, z));
+	}
 
 	//template<typename T>‚Æ“¯‚¶
 	template <class T>

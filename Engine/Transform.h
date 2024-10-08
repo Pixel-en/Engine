@@ -11,10 +11,12 @@ class Transform
 	XMMATRIX matScale_;	//拡大行列
 	//SRTの順にかける
 
+
 public:
 	XMFLOAT3 position_;	//位置
 	XMFLOAT3 rotate_;	//向き
 	XMFLOAT3 scale_;	//拡大率
+	Transform* pParent_;	//親オブジェクトの情報
 
 	//コンストラクタ
 	Transform();

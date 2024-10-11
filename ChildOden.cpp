@@ -20,6 +20,10 @@ void ChildOden::Initialize()
 void ChildOden::Update()
 {
 	transform_.rotate_.y += 0.1;
+	transform_.position_.y += 0.1;
+
+	if (transform_.position_.y > 20.0)
+		Killme();
 }
 
 void ChildOden::Draw()

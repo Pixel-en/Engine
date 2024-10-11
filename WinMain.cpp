@@ -4,6 +4,7 @@
 #include "Engine/Direct3D.h"
 #include "Engine/Camera.h"
 #include "Engine/RootJob.h"
+#include "Engine/Input.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "winmm.lib")
@@ -68,6 +69,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	if (FAILED(Direct3D::Initialize(winW, winH, hWnd)))
 		return 0;
 
+	if (FAILED(Input::Initialize(hWnd)))
+		return 0;
+
 	Camera::Initialize();
 
 	pRootjob = new RootJob();
@@ -119,6 +123,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			lastUpdateTime = nowTime;
 
 			countFps++;
+
+			Input::Update();
 
 			Camera::Update();
 

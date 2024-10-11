@@ -30,6 +30,8 @@ public:
 
 	void Killme();
 
+	GameObject* GetParent() { return pParent_; };
+
 	void SetPosition(XMFLOAT3 position) {
 		transform_.position_ = position;
 	}

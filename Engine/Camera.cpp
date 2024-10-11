@@ -10,7 +10,7 @@ XMMATRIX projMatrix_;	//プロジェクション行列
 void Camera::Initialize()
 {
 	position_ = XMVectorSet(0, 3, -10, 0);	//カメラの位置
-	target_ = XMVectorSet(0, 0, 0, 0);	//カメラの焦点
+	target_ = XMVectorSet(0, 5, 0, 0);	//カメラの焦点
 	//プロジェクション行列
 	projMatrix_ = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)WINDOW_WIDTH / (FLOAT)WINDOW_HEIGHT, 0.1f, 100.0f);
 }

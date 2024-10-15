@@ -3,9 +3,10 @@
 #include "ChildOden.h"
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
+#include "Model.h"
 
 Player::Player(GameObject* parent)
-	:GameObject(parent,"Player"),pOden(nullptr)
+	:GameObject(parent,"Player"),hModel_(-1)
 {
 }
 
@@ -15,8 +16,10 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	pOden = new FBX;
-	pOden->Load("Assets//ODEN2.fbx");
+
+	hModel_=Model::Load("Assets\\ODEN2.fbx");
+	//pOden = new FBX;
+	//pOden->Load("Assets//ODEN2.fbx");
 	transform_.scale_ = { 0.7,0.7,0.7 };
 	//GameObject* pCo = Instantiate<ChildOden>(this);
 	//pCo->SetPosition(-2, 0, 1);
@@ -36,17 +39,17 @@ void Player::Update()
 	if (Input::IsKeyDown(DIK_SPACE)) {
 		GameObject* pCo = Instantiate<ChildOden>(GetParent());
 		pCo->SetPosition(transform_.position_.x, 4, 1);
+		pCo->SetScale(0.1, 0.1, 0.1);
 	}
 
 }
 
 void Player::Draw()
 {
-	pOden->Draw(transform_);
+	Model::SetTransform(hModel_, transform_);
+	Model::Draw(hModel_);
 }
 
 void Player::Release()
 {
-	pOden->Release();
-	delete pOden;
 }

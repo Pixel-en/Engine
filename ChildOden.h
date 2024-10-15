@@ -6,7 +6,7 @@ class FBX;
 class ChildOden :
 	public GameObject
 {
-	FBX* pFbx;
+	int hModel_;
 public:
 
 	ChildOden(GameObject* parent);

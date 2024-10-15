@@ -1,15 +1,14 @@
 #include "ChildOden.h"
-#include "Engine/FBX.h"
+#include "Model.h"
 
 ChildOden::ChildOden(GameObject* parent)
-	:GameObject(parent,"ChildOden")
+	:GameObject(parent,"ChildOden"),hModel_(-1)
 {
 }
 
 void ChildOden::Initialize()
 {
-	pFbx = new FBX;
-	pFbx->Load("Assets/ODEN2.fbx");
+	hModel_ = Model::Load("Assets/ODEN2.fbx");
 	transform_.scale_.x = 0.2f;
 	transform_.scale_.y = 0.2f;
 	transform_.scale_.z = 0.2f;
@@ -28,7 +27,8 @@ void ChildOden::Update()
 
 void ChildOden::Draw()
 {
-	pFbx->Draw(transform_);
+	Model::SetTransform(hModel_, transform_);
+	Model::Draw(hModel_);
 }
 
 void ChildOden::Release()

@@ -75,7 +75,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	Camera::Initialize();
 
-	pRootjob = new RootJob();
+	pRootjob = new RootJob(nullptr);
 	pRootjob->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）

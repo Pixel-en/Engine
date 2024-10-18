@@ -9,6 +9,7 @@ class GameObject
 	bool isDead_;
 
 protected:
+	
 	std::list<GameObject*> childList_;
 	Transform	transform_;
 	GameObject*	pParent_;
@@ -45,6 +46,9 @@ public:
 	void SetRotateY(float yrotate) { transform_.rotate_.y = yrotate; };
 	void SetRotateZ(float zrotate) { transform_.rotate_.z = zrotate; };
 
+	GameObject* FindObject(std::string objName);
+	GameObject* GetRootJob();
+	GameObject* FindChildObject(std::string objName);
 
 	//template<typename T>‚Æ“¯‚¶
 	template <class T>

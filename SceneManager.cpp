@@ -30,8 +30,8 @@ void SceneManager::Update()
         for (auto itr : childList_) {
             itr->ReleaseSub();
             SAFE_DELETE(itr);
-            childList_.clear();
         }
+        childList_.clear();
 
         Model::Release();
 

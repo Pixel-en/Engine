@@ -59,18 +59,26 @@ void GameObject::Killme()
 
 GameObject* GameObject::FindObject(std::string objName)
 {
-	if (GetRootJob()->objectName_ == objName)
-		return this;
-	else {
-		for (auto itr : childList_) {
-			GameObject* obj = itr->FindChildObject(objName);
-			if (obj != nullptr)
-				return obj;
-		}
-	}
+	//if (GetRootJob()->objectName_ == objName)
+	//	return this;
+	//else {
+	//	for (auto itr : childList_) {
+	//		GameObject* obj = itr->FindChildObject(objName);
+	//		if (obj != nullptr)
+	//			return obj;
+	//	}
+	//}
 
-	return nullptr;
-}
+	//return nullptr;
+
+	
+	GameObject* rootJob = GetRootJob();
+	GameObject* res = rootJob->FindChildObject(objName);
+
+	return res;
+	
+
+	}
 
 GameObject* GameObject::GetRootJob()
 {

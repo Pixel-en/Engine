@@ -25,6 +25,7 @@ void Player::Initialize()
 	//pCo->SetPosition(-2, 0, 1);
 	Camera::SetPosition(XMVectorSet(0, 3, -15, 0));
 	Camera::SetTarget(XMVectorSet(0, 4, 0, 0));
+	transform_.position_ = { 0, 0, 0 };
 }
 
 void Player::Update()
@@ -38,7 +39,7 @@ void Player::Update()
 
 	if (Input::IsKeyDown(DIK_SPACE)) {
 		GameObject* pCo = Instantiate<ChildOden>(GetParent());
-		pCo->SetPosition(transform_.position_.x, 4, 1);
+		pCo->SetPosition(transform_.position_.x, 4, 0);
 		pCo->SetScale(0.1, 0.1, 0.1);
 	}
 

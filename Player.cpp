@@ -37,7 +37,7 @@ void Player::Update()
 	if (Input::IsKey(DIK_A))
 		transform_.position_.x -= 0.1;
 
-	if (Input::IsKeyDown(DIK_SPACE)) {
+	if (Input::IsKey(DIK_SPACE)) {
 		GameObject* pCo = Instantiate<ChildOden>(GetParent());
 		pCo->SetPosition(transform_.position_.x, 4, 0);
 		pCo->SetScale(0.1, 0.1, 0.1);

@@ -1,6 +1,7 @@
 #include "ChildOden.h"
 #include "Model.h"
 #include "Enemy.h"
+#include "SphereCollider.h"
 
 ChildOden::ChildOden(GameObject* parent)
 	:GameObject(parent,"ChildOden"),hModel_(-1)
@@ -15,6 +16,9 @@ void ChildOden::Initialize()
 	transform_.scale_.z = 0.2f;
 	transform_.position_.x = 2.0f;
 	transform_.position_.y = 1.0f;
+
+	SphereCollider* col = new SphereCollider(0.5f);
+	AddCollider(col);
 }
 
 void ChildOden::Update()
@@ -24,24 +28,18 @@ void ChildOden::Update()
 
 	Enemy* enemy = (Enemy*)FindObject("Enemy");
 
-	float er = 0.1;
-	float br= 0.5;
-
-
+	//float er = 0.1;
+	//float br= 0.5;
 	//XMFLOAT3 P1 = enemy->GetPosition();
 	//XMFLOAT3 P2 = transform_.position_;
-	
 	//XMVECTOR Dist = XMVector3Length(XMVectorSet(P1.x, P1.y, P1.z, 1) - XMVectorSet(P2.x, P2.y, P2.z, 1));
 	//float d = XMVectorGetX(Dist);
-	
 	//if (d <= er + br)
 		//Killme();
-	
-	
-	if (sqrtf(powf(transform_.position_.x - enemy->GetPosition().x, 2.0) +
-		powf(transform_.position_.y - enemy->GetPosition().y, 2.0) +
-		powf(transform_.position_.z - enemy->GetPosition().z, 2.0)) < er * er + br * br)
-		Killme();
+	//if (sqrtf(powf(transform_.position_.x - enemy->GetPosition().x, 2.0) +
+	//	powf(transform_.position_.y - enemy->GetPosition().y, 2.0) +
+	//	powf(transform_.position_.z - enemy->GetPosition().z, 2.0)) < er * er + br * br)
+	//	Killme();
 		
 	if (transform_.position_.y > 20.0)
 		Killme();
@@ -55,4 +53,10 @@ void ChildOden::Draw()
 
 void ChildOden::Release()
 {
+}
+
+void ChildOden::onCollision(GameObject* pTarget)
+{
+	pTarget->Killme();
+	Killme();
 }

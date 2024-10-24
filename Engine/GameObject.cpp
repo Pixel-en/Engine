@@ -21,6 +21,9 @@ GameObject::~GameObject()
 void GameObject::UpdateSub()
 {
 	Update();
+	RoundRobin(GetRootJob());
+
+
 	for (auto it : childList_) {
 		it->UpdateSub();
 	}
@@ -75,6 +78,7 @@ void GameObject::Collision(GameObject* pTarget)
 	XMVECTOR dist = XMVector3Length(XMVectorSet(P1.x, P1.y, P1.z, 1) - XMVectorSet(P2.x, P2.y, P2.z, 1));
 	if (XMVectorGetX(dist) <= (pTarget->pCollider_->GetRadius() + this->pCollider_->GetRadius())) {
 
+		onCollision(pTarget);
 	}
 
 
@@ -83,7 +87,14 @@ void GameObject::Collision(GameObject* pTarget)
 void GameObject::RoundRobin(GameObject* pTarget)
 {
 	//自分とターゲットの当たり判定
+	if (this->pCollider_ == nullptr)
+		return;
+	if( pTarget->pCollider_ != nullptr)
+		Collision(pTarget);
+
 	//時分とターゲットの子オブジェクト全部の当たり判定
+	for (auto& itr : pTarget->childList_)
+		RoundRobin(itr);
 
 }
 

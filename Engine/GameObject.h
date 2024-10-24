@@ -37,6 +37,7 @@ public:
 	void Killme();
 
 	GameObject* GetParent() { return pParent_; };
+	std::string GetObjectName() { return objectName_; };
 
 	void SetPosition(XMFLOAT3 position) {
 		transform_.position_ = position;
@@ -54,6 +55,8 @@ public:
 	void AddCollider(SphereCollider* pColl);
 	void Collision(GameObject* pTarget);
 	void RoundRobin(GameObject* pTarget);
+
+	virtual void onCollision(GameObject* pTarget) {};
 
 	GameObject* FindObject(std::string objName);
 	GameObject* GetRootJob();

@@ -74,6 +74,9 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h">
@@ -118,6 +121,7 @@
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="SphereCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

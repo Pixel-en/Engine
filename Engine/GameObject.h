@@ -4,9 +4,12 @@
 #include <string>
 #include "Transform.h"
 
+class SphereCollider;
+
 class GameObject
 {
 	bool isDead_;
+
 
 protected:
 	
@@ -14,6 +17,8 @@ protected:
 	Transform	transform_;
 	GameObject*	pParent_;
 	std::string	objectName_;
+	
+	SphereCollider* pCollider_;
 
 public:
 	GameObject();
@@ -45,6 +50,10 @@ public:
 	void SetRotateX(float xrotate) { transform_.rotate_.x = xrotate; };
 	void SetRotateY(float yrotate) { transform_.rotate_.y = yrotate; };
 	void SetRotateZ(float zrotate) { transform_.rotate_.z = zrotate; };
+
+	void AddCollider(SphereCollider* pColl);
+	void Collision(GameObject* pTarget);
+	void RoundRobin(GameObject* pTarget);
 
 	GameObject* FindObject(std::string objName);
 	GameObject* GetRootJob();

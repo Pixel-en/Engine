@@ -23,19 +23,48 @@ void Player::Initialize()
 	transform_.scale_ = { 0.7,0.7,0.7 };
 	//GameObject* pCo = Instantiate<ChildOden>(this);
 	//pCo->SetPosition(-2, 0, 1);
-	Camera::SetPosition(XMVectorSet(0, 3, -15, 0));
-	Camera::SetTarget(XMVectorSet(0, 4, 0, 0));
+	Camera::SetPosition(XMVectorSet(0, 3, -20, 0));
+	Camera::SetTarget(XMLoadFloat3(&transform_.position_));
 	transform_.position_ = { 0, 0, 0 };
 }
 
 void Player::Update()
 {
-	transform_.rotate_.y += 0.1;
+#if 0
+	//オブジェクトを軸にカメラが回転
+	Transform camrottrans = transform_;
 
-	if (Input::IsKey(DIK_D))
-		transform_.position_.x += 0.1;
-	if (Input::IsKey(DIK_A))
-		transform_.position_.x -= 0.1;
+	if (Input::IsKey(DIK_D)) {
+		//trans += moveVector;
+		camrottrans.rotate_.y += 1.0f;
+		XMMATRIX camrotmatrix = XMMatrixRotationY(camrottrans.rotate_.y / 180.0f * 3.14f);
+
+		Camera::SetPosition(XMVector3TransformCoord(Camera::GetPosition(), camrotmatrix));
+	}
+	if (Input::IsKey(DIK_A)) {
+		//trans -= moveVector;
+		camrottrans.rotate_.y -= 1.0f;
+		XMMATRIX camrotmatrix = XMMatrixRotationY(camrottrans.rotate_.y / 180.0f * 3.14f);
+
+		Camera::SetPosition(XMVector3TransformCoord(Camera::GetPosition(), camrotmatrix));
+	}
+
+#endif
+
+	Transform camtrans;
+	XMStoreFloat3(&camtrans.position_, Camera::GetPosition());
+
+
+	if (Input::IsKey(DIK_D)) {
+		camtrans.rotate_.y += 1.0f;
+
+		XMMATRIX rotateMatrix = XMMatrixRotationY(camtrans.rotate_.y / 180.0f * 3.14f);
+		XMVECTOR  moveVector = XMVector3TransformCoord(XMLoadFloat3(&transform_.position_), rotateMatrix);
+		XMStoreFloat3(&transform_.position_, moveVector);
+	}
+	if (Input::IsKey(DIK_A)) {
+		camtrans.rotate_.y -= 1.0f;
+	}
 
 	if (Input::IsKey(DIK_SPACE)) {
 		GameObject* pCo = Instantiate<ChildOden>(GetParent());
@@ -43,6 +72,8 @@ void Player::Update()
 		pCo->SetScale(0.1, 0.1, 0.1);
 	}
 
+	//XMStoreFloat3(&transform_.position_, trans);
+	//Camera::SetTarget(trans);
 }
 
 void Player::Draw()

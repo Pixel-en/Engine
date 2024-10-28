@@ -20,6 +20,7 @@ void Camera::Update()
 {
 	//ビュー行列の作成
 	viewMatrix_ = XMMatrixLookAtLH(position_, target_, XMVectorSet(0, 1, 0, 0));
+	
 }
 
 //位置を設定
@@ -44,4 +45,14 @@ XMMATRIX Camera::GetViewMatrix()
 XMMATRIX Camera::GetProjectionMatrix()
 {
 	return projMatrix_;
+}
+
+XMVECTOR Camera::GetPosition()
+{
+	return position_;
+}
+
+XMVECTOR Camera::GetTarget()
+{
+	return target_;
 }

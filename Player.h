@@ -9,6 +9,9 @@ class Player : public GameObject
 	//FBX* pOden;
 	int hModel_;
 
+
+	Transform camtrans;
+
 public:
 	Player(GameObject* parent);
 	~Player();

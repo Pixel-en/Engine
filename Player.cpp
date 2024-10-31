@@ -61,6 +61,10 @@ void Player::Update()
 		temp += moveVector;
 		XMStoreFloat3(&transform_.position_, temp);
 
+		wchar_t buffer[256];
+		swprintf_s(buffer, L"%f\n",camtrans.rotate_.y);
+		OutputDebugString(buffer);
+
 		Camera::SetTarget(temp);
 	}
 	if (Input::IsKey(DIK_A)) {

@@ -2,6 +2,8 @@
 #include "Model.h"
 #include "Enemy.h"
 #include "SphereCollider.h"
+#include "Engine/Input.h"
+#include "Player.h"
 
 ChildOden::ChildOden(GameObject* parent)
 	:GameObject(parent,"ChildOden"),hModel_(-1)
@@ -24,7 +26,7 @@ void ChildOden::Initialize()
 void ChildOden::Update()
 {
 	transform_.rotate_.y += 0.1;
-	transform_.position_.y += 0.1;
+	//transform_.position_.y += 0.1;
 
 	Enemy* enemy = (Enemy*)FindObject("Enemy");
 
@@ -40,6 +42,20 @@ void ChildOden::Update()
 	//	powf(transform_.position_.y - enemy->GetPosition().y, 2.0) +
 	//	powf(transform_.position_.z - enemy->GetPosition().z, 2.0)) < er * er + br * br)
 	//	Killme();
+
+	Player* p = (Player*)FindObject("Player");
+	//pC->SetPosition(transform_.position_.x, 0, 5);
+
+	if (Input::IsKey(DIK_RETURN)) {
+		Transform rottrans = p->GetTransform();
+		rottrans.rotate_.y += 1;
+		XMFLOAT3 temp = transform_.position_;
+
+		XMMATRIX rotMat = XMMatrixRotationY(rottrans.rotate_.y / 180.0f * 3.14f);
+		XMVECTOR moveVector = XMVector3TransformCoord(XMLoadFloat3(&temp), rotMat);
+		XMStoreFloat3(&temp, moveVector);
+		transform_.position_ = temp;
+	}
 		
 	if (transform_.position_.y > 20.0)
 		Killme();

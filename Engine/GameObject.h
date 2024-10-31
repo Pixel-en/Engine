@@ -52,6 +52,9 @@ public:
 	void SetRotateY(float yrotate) { transform_.rotate_.y = yrotate; };
 	void SetRotateZ(float zrotate) { transform_.rotate_.z = zrotate; };
 
+	XMFLOAT3 GetPosition() { return transform_.position_; }
+	Transform GetTransform() { return transform_; };
+
 	void AddCollider(SphereCollider* pColl);
 	void Collision(GameObject* pTarget);
 	void RoundRobin(GameObject* pTarget);

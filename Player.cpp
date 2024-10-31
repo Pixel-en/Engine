@@ -50,17 +50,18 @@ void Player::Update()
 	}
 
 #endif
-
-	Transform camtrans;
 	XMStoreFloat3(&camtrans.position_, Camera::GetPosition());
 
 
 	if (Input::IsKey(DIK_D)) {
 		camtrans.rotate_.y += 1.0f;
-
+		XMVECTOR temp = XMLoadFloat3(&transform_.position_);
 		XMMATRIX rotateMatrix = XMMatrixRotationY(camtrans.rotate_.y / 180.0f * 3.14f);
-		XMVECTOR  moveVector = XMVector3TransformCoord(XMLoadFloat3(&transform_.position_), rotateMatrix);
-		XMStoreFloat3(&transform_.position_, moveVector);
+		XMVECTOR  moveVector = XMVector3TransformCoord(XMVectorSet(0, 0, 0.2f, 0), rotateMatrix);
+		temp += moveVector;
+		XMStoreFloat3(&transform_.position_, temp);
+
+		Camera::SetTarget(temp);
 	}
 	if (Input::IsKey(DIK_A)) {
 		camtrans.rotate_.y -= 1.0f;
@@ -71,7 +72,7 @@ void Player::Update()
 		pCo->SetPosition(transform_.position_.x, 4, 0);
 		pCo->SetScale(0.1, 0.1, 0.1);
 	}
-
+	
 	//XMStoreFloat3(&transform_.position_, trans);
 	//Camera::SetTarget(trans);
 }

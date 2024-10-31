@@ -9,7 +9,7 @@ class Player : public GameObject
 	//FBX* pOden;
 	int hModel_;
 
-
+	//ƒJƒƒ‰—pTransform
 	Transform camtrans;
 
 public:

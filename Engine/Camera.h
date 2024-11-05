@@ -1,6 +1,7 @@
 #pragma once
 #include "Direct3D.h"
 #include <DirectXMath.h>
+#include "Transform.h"
 
 using namespace DirectX;
 
@@ -30,4 +31,8 @@ namespace Camera
 	XMVECTOR GetPosition();
 
 	XMVECTOR GetTarget();
+
+	Transform GetTrans();
+
+	void SetTrans(Transform trans);
 };

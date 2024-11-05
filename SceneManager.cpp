@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "TestScene.h"
 #include "PlayScene.h"
+#include "ENDScene.h"
 #include "Engine/Direct3D.h"
 #include "Model.h"
 
@@ -40,6 +41,7 @@ void SceneManager::Update()
         {
         case SCENE_ID_TEST: Instantiate<TestScene>(this); break;
         case SCENE_ID_PLAY: Instantiate<PlayScene>(this); break;
+        case SCENE_ID_END : Instantiate<ENDScene>(this);  break;
         }
 
         //無事シーンを生成出来たら、カレントシーンを更新

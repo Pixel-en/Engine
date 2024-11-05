@@ -4,10 +4,17 @@
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
 #include "Model.h"
+#include "SphereCollider.h"
+#include "SceneManager.h"
+
+namespace {
+	const float MOVESPEED{ 1.0f };
+}
 
 Player::Player(GameObject* parent)
 	:GameObject(parent,"Player"),hModel_(-1)
 {
+	speed_ = MOVESPEED;
 }
 
 Player::~Player()
@@ -16,21 +23,16 @@ Player::~Player()
 
 void Player::Initialize()
 {
+	hModel_ = Model::Load("Assets\\Crosshair.fbx");
 
-	hModel_=Model::Load("Assets\\ODEN2.fbx");
+	SphereCollider* col = new SphereCollider(1.0f);
+	AddCollider(col);
+	
+
 	//pOden = new FBX;
 	//pOden->Load("Assets//ODEN2.fbx");
-	transform_.scale_ = { 0.7,0.7,0.7 };
-	//GameObject* pCo = Instantiate<ChildOden>(this);
-	//pCo->SetPosition(-2, 0, 1);
-	Camera::SetPosition(XMVectorSet(0, 3, -20, 0));
-	Camera::SetTarget(XMLoadFloat3(&transform_.position_));
-	transform_.position_ = { 0, 0, 0 };
+	transform_.scale_ = { 0.01,0.01,0.01 };
 
-
-	GameObject* pCo = Instantiate<ChildOden>(this);
-	pCo->SetPosition(transform_.position_.x+5, 0, 5);
-	pCo->SetScale(0.1, 0.1, 0.1);
 }
 
 void Player::Update()
@@ -55,56 +57,40 @@ void Player::Update()
 	}
 
 #endif
-#if 0
 
-	//カメラ用Transform
-	Transform camtrans;
-	camtrans = transform_;
-	XMStoreFloat3(&camtrans.position_, Camera::GetPosition());
+	Transform camtrans = Camera::GetTrans();
 
-	XMVECTOR temp = XMLoadFloat3(&transform_.position_);
+	XMVECTOR camtar = Camera::GetPosition();
 
 	if (Input::IsKey(DIK_D)) {
-		camtrans.rotate_.y += 1.0f;
-		XMMATRIX rotateMatrix = XMMatrixRotationY(camtrans.rotate_.y / 180.0f * 3.14f);
-		XMVECTOR  moveVector = XMVector3TransformCoord(temp, rotateMatrix);
-		//temp += moveVector;
-		XMStoreFloat3(&transform_.position_, moveVector);
-
-		//デバッグ
-		wchar_t buffer[256];
-		swprintf_s(buffer, L"%f\n",camtrans.rotate_.y);
-		OutputDebugString(buffer);
-
-		//Camera::SetTarget(temp);
+		camtrans.rotate_.y += speed_;
 	}
 	if (Input::IsKey(DIK_A)) {
-		camtrans.rotate_.y -= 1.0f;
-	}
-#endif
-
-	if (Input::IsKey(DIK_D)) {
-		
-	}
-	if (Input::IsKey(DIK_A)) {
-
-	}
-
-	if (Input::IsKey(DIK_RIGHT)) {
-		transform_.position_.x += 0.1;
-	}
-	if (Input::IsKey(DIK_LEFT)) {
-		transform_.position_.x -= 0.1;
+		camtrans.rotate_.y -= speed_;
 	}
 
 	if (Input::IsKeyDown(DIK_SPACE)) {
-		GameObject* pCo = Instantiate<ChildOden>(this);
-		pCo->SetPosition(transform_.position_);
-		pCo->SetScale(0.1, 0.1, 0.1);
+		ChildOden* pCo = Instantiate<ChildOden>(this);
+		XMFLOAT3 temp;
+		XMVECTOR targetpos = XMVectorSet(XMVectorGetX(Camera::GetTarget()), XMVectorGetY(Camera::GetTarget()), XMVectorGetZ(Camera::GetTarget()), 0);
+		XMStoreFloat3(&temp, targetpos);
+		pCo->SetPosition(temp);
+		pCo->SetScale(0.01, 0.01, 0.01);
+		pCo->SetVec(Camera::GetPosition() - Camera::GetTarget());
 	}
+
+	XMMATRIX rot = XMMatrixRotationY(camtrans.rotate_.y / 180.0f * 3.14f);
+	XMVECTOR move = XMVector3TransformCoord(XMVectorSet(0, 0,0.1f, 0), rot);
+	camtar += move;
+
+	Camera::SetTarget(camtar);
+	Camera::SetTrans(camtrans);
+
+	XMStoreFloat3(&transform_.position_, camtar);
 	
 	//XMStoreFloat3(&transform_.position_, trans);
 	//Camera::SetTarget(trans);
+	//Camera::SetTarget(XMLoadFloat3(&transform_.position_));
 }
 
 void Player::Draw()
@@ -115,4 +101,14 @@ void Player::Draw()
 
 void Player::Release()
 {
+}
+
+void Player::onCollision(GameObject* pTarget)
+{
+	if (pTarget->GetObjectName() == "Enemy") {
+		SceneManager* pSceneManater = (SceneManager*)FindObject("SceneManager");
+		pSceneManater->ChangeScene(SCENE_ID_END);
+	}
+		
+
 }

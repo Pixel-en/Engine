@@ -7,8 +7,12 @@ class FBX;
 class Player : public GameObject
 {
 	//FBX* pOden;
+	
 	int hModel_;
 
+	int himage_;
+
+	float speed_;
 
 public:
 	Player(GameObject* parent);
@@ -19,6 +23,7 @@ public:
 	void Draw() override;
 	void Release() override;
 
+	void onCollision(GameObject* pTarget) override;
 
 };
 

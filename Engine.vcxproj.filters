@@ -77,7 +77,10 @@
     <ClCompile Include="SphereCollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Debug.cpp">
+    <ClCompile Include="Engine\Debug.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ENDScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,7 +128,8 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="SphereCollider.h" />
-    <ClInclude Include="Debug.h" />
+    <ClInclude Include="Engine\Debug.h" />
+    <ClInclude Include="ENDScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

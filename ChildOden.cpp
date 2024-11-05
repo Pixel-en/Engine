@@ -13,11 +13,6 @@ ChildOden::ChildOden(GameObject* parent)
 void ChildOden::Initialize()
 {
 	hModel_ = Model::Load("Assets/ODEN2.fbx");
-	transform_.scale_.x = 0.2f;
-	transform_.scale_.y = 0.2f;
-	transform_.scale_.z = 0.2f;
-	transform_.position_.x = 2.0f;
-	transform_.position_.y = 1.0f;
 
 	SphereCollider* col = new SphereCollider(0.5f);
 	AddCollider(col);
@@ -25,40 +20,13 @@ void ChildOden::Initialize()
 
 void ChildOden::Update()
 {
-	transform_.rotate_.y += 0.1;
-	//transform_.position_.y += 0.1;
+	XMVECTOR pos = XMLoadFloat3(&transform_.position_);
+	pos -= movevec * 0.5;
+	XMStoreFloat3(&transform_.position_, pos);
 
-	Enemy* enemy = (Enemy*)FindObject("Enemy");
-
-	//float er = 0.1;
-	//float br= 0.5;
-	//XMFLOAT3 P1 = enemy->GetPosition();
-	//XMFLOAT3 P2 = transform_.position_;
-	//XMVECTOR Dist = XMVector3Length(XMVectorSet(P1.x, P1.y, P1.z, 1) - XMVectorSet(P2.x, P2.y, P2.z, 1));
-	//float d = XMVectorGetX(Dist);
-	//if (d <= er + br)
-		//Killme();
-	//if (sqrtf(powf(transform_.position_.x - enemy->GetPosition().x, 2.0) +
-	//	powf(transform_.position_.y - enemy->GetPosition().y, 2.0) +
-	//	powf(transform_.position_.z - enemy->GetPosition().z, 2.0)) < er * er + br * br)
-	//	Killme();
-
-	Player* p = (Player*)FindObject("Player");
-	//pC->SetPosition(transform_.position_.x, 0, 5);
-
-	if (Input::IsKey(DIK_RETURN)) {
-		Transform rottrans = p->GetTransform();
-		rottrans.rotate_.y += 1;
-		XMFLOAT3 temp = transform_.position_;
-
-		XMMATRIX rotMat = XMMatrixRotationY(rottrans.rotate_.y / 180.0f * 3.14f);
-		XMVECTOR moveVector = XMVector3TransformCoord(XMLoadFloat3(&temp), rotMat);
-		XMStoreFloat3(&temp, moveVector);
-		transform_.position_ = temp;
-	}
-		
-	if (transform_.position_.y > 20.0)
+	if (transform_.position_.x > 100 || transform_.position_.y > 100 || transform_.position_.z > 100)
 		Killme();
+
 }
 
 void ChildOden::Draw()
@@ -73,6 +41,8 @@ void ChildOden::Release()
 
 void ChildOden::onCollision(GameObject* pTarget)
 {
-	pTarget->Killme();
-	Killme();
+	if (pTarget->GetObjectName() == "Enemy") {
+		pTarget->Killme();
+		Killme();
+	}
 }
